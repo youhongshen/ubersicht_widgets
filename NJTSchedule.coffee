@@ -17,19 +17,37 @@ render: (output) ->
   catchUpMin = -3;   # should have left x min ago, but if i walk fast, i may still make it
 
   now = new Date();
-  console.log(now)
+  console.log("now = " + now);
 
-  s = """
-  <h2>NYP to New Brunswick</h2>
+#  calculate ideal time to leave - this is the set time to leave office everyday
+  idealHour = 18;
+  idealMin = 20;
+  idealTime = new Date();
+  idealTime.setHours(idealHour, idealMin, 0);
+  idealTimeToLeaveInMin = Math.round((idealTime - now) / 1000 / 60);
+
+#  msg = 'leave in ' + idealTimeToLeaveInMin + ' minutes';
+#  window.speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+
+  if idealTimeToLeaveInMin > 0 && idealTimeToLeaveInMin <= 10
+    msg = 'leave in ' + idealTimeToLeaveInMin + ' minutes';
+    console.log(msg);
+    window.speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+
+  htmlStr = "<h2>NYP to New Brunswick</h2>"
+  htmlStr = htmlStr + "<h4>" + now + "</h4>"
+
+  htmlStr = htmlStr + """
   <table border='1'>
   <tr>
   <th>Departure</th>
   <th>Arrival</th>
   <th>Train</th>
   <th>Travel Time</th>
-  <th>Leave in (min)</th>
+  <th>Leave Office</th>
   </tr>
   """
+
 
   for item in schedule
 
@@ -42,9 +60,7 @@ render: (output) ->
       hour = hour + 12;
 
     departureTime = new Date();
-    departureTime.setHours(hour);
-    departureTime.setMinutes(min);
-    departureTime.setSeconds(0);
+    departureTime.setHours(hour, min, 0);
 
     # only print if the departure time is after 10am (to save some space on the bottom)
     if hour < earliestHourToDisplay
@@ -77,35 +93,26 @@ render: (output) ->
     if rowClasses.length > 0
       rowClassStr = ' class="' + rowClasses.join(" ") + '"'
 
-    console.log(departureTimeStr + " " + rowClassStr)
-    s = s + "<tr" + rowClassStr + ">"
-    s = s + "<td>" + departureTimeStr + "</td>"
-    s = s + "<td>" + item.arrivalTime + "</td>"
-    s = s + "<td>" + item.origin.trainNumber + "</td>"
-    s = s + "<td>" + item.travelTime + " min</td>"
-    s = s + "<td>" + leaveInMinStr + "</td>"
+#    console.log(departureTimeStr + " " + rowClassStr)
+    htmlStr = htmlStr + "<tr" + rowClassStr + ">"
+    htmlStr = htmlStr + "<td>" + departureTimeStr + "</td>"
+    htmlStr = htmlStr + "<td>" + item.arrivalTime + "</td>"
+    htmlStr = htmlStr + "<td>" + item.origin.trainNumber + "</td>"
+    htmlStr = htmlStr + "<td>" + item.travelTime + " min</td>"
+    htmlStr = htmlStr + "<td>" + leaveInMinStr + "</td>"
 
-    s = s + "</tr>"
+    htmlStr = htmlStr + "</tr>"
 
+  htmlStr = htmlStr + "</table>"
 
-  s = s + "</table>"
-  s = s + """
-    <script>
-      console.log('hello world');
-      let msg = new SpeechSynthesisUtterance('hello world');
-      window.speechSynthesis.speak(msg);
-
-    </script>
-  """
-  return s
+  return htmlStr
 
 style: """
   font-family: sans-serif
-  font-weight: 300
   position: fixed
-  left: 100px
+  left: 80px
   top: 20px
-  color: white
+  color: black
 
   .leaveSoon
     animation: blinker 2s ease-in-out infinite

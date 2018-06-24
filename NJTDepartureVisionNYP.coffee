@@ -11,60 +11,35 @@ refreshFrequency: '2m'
 
 render: (output) ->
   s = """
-<html>
-
-<head>
-    <style>
-        .grid-container {
-            display: inline-grid;
-            grid-template-columns: 800px;
-        }
-        .grid-item {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.8);
-            padding: 5px;
-        }
-    </style>
-</head>
-<body>
-<h2>NYP Departure Vision</h2>
-<div class="grid-container">
-    <div class="grid-item">
-  """ + output + """
-    </div>
-</div>
-</body>
-</html>
+      <h2>NYP Departure Vision</h2>
+      """ + "<h4>" + new Date() + "</h4>" + """
+      <div class="grid-container">
+        <div class="grid-item">
+      """ + output + """
+        </div>
+      </div>
   """
+
   return s
 
 #update: (output, dom) ->
 #  $(dom).find('#GridView1')
 #  $(dom).find('table')
 
-
 style: """
+  font-family: sans-serif
   position: fixed
-  left: 1500px
-  top: 100px
-  color: white
-  font-size: 2px
+  left: 1250px
+  top: 20px
+  color: black
 
-  h2
-    font-size: 22px
+  .grid-item
+    font-size: 2px
+    background-color: rgba(255, 255, 255, 0.8)
+    border: 1px solid rgba(0, 0, 0, 0.8)
+    padding: 5px
 """
-#  font-size: 2px
 
 #  .grid-container
-#    display: grid
-#    grid-template-columns: auto auto auto
-#    background-color: #2196F3
-#    padding: 10px
-#
-#  .grid-item
-#    background-color: rgba(255, 255, 255, 0.8)
-#    border: 1px solid rgba(0, 0, 0, 0.8)
-#    padding: 20px
-#    font-size: 30px
-#    text-align: center
-
+#  display: inline-grid
+#  grid-template-columns: 650px
