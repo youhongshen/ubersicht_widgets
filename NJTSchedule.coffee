@@ -1,5 +1,5 @@
 # returns json on success and failure
-command: "/usr/local/Cellar/node@8/8.11.1/bin/node /Volumes/Unix/workplace/JavaScriptTest/njt.js"
+command: "/usr/local/bin/node /Volumes/Unix/workplace/JavaScriptTest/njt.js"
 refreshFrequency: '2m'
 
 render: (output) ->
@@ -11,7 +11,7 @@ render: (output) ->
   schedule = result.results
 
 #  some config
-  timeFromOffice = 1200;  # how long it takes to walk from office to Penn (in sec)
+  timeFromOffice = 18 * 60 ;  # how long it takes to walk from office to Penn (in sec)
   earliestHourToDisplay = 11;   # only display departure time on or after this hour, to save some space on the bottom
   leaveSoonThresholdMin = 7;    # when should i indicate "leave soon" by blinking?
   catchUpMin = -3;   # should have left x min ago, but if i walk fast, i may still make it
@@ -34,8 +34,12 @@ render: (output) ->
     console.log(msg);
     window.speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
 
-  htmlStr = "<h2>NYP to New Brunswick</h2>"
-  htmlStr = htmlStr + "<h4>" + now + "</h4>"
+  htmlStr = ""
+  htmlStr += "<div class='grid-container'>"
+  htmlStr += "<div class='grid-item'>"
+  htmlStr += "<h2>NYP to New Brunswick</h2>"
+  htmlStr += "<h4>" + now + "</h4>"
+  htmlStr += "<hr/>"
 
   htmlStr = htmlStr + """
   <table border='1'>
@@ -103,7 +107,7 @@ render: (output) ->
 
     htmlStr = htmlStr + "</tr>"
 
-  htmlStr = htmlStr + "</table>"
+  htmlStr = htmlStr + "</table></div></div>"
 
   return htmlStr
 
@@ -126,6 +130,14 @@ style: """
     }
   }
 
+  .grid-container
+    display: inline-grid
+    grid-template-columns: 450px
+
+  .grid-item
+    background-color: rgba(255, 255, 255, 0.8)
+    border: 1px solid rgba(0, 0, 0, 0.8)
+    padding: 5px
 
 """
 #  .nextTrain

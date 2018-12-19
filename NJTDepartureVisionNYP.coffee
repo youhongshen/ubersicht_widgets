@@ -10,17 +10,16 @@ command: "/usr/bin/curl -s http://dv.njtransit.com/mobile/tid-mobile.aspx?sid=NY
 refreshFrequency: '2m'
 
 render: (output) ->
-  s = """
-      <h2>NYP Departure Vision</h2>
-      """ + "<h4>" + new Date() + "</h4>" + """
+  htmlStr = """
       <div class="grid-container">
-        <div class="grid-item">
-      """ + output + """
-        </div>
-      </div>
-  """
+      <div class="grid-item">
+      <h2>NYP Departure Vision</h2>"""
 
-  return s
+  htmlStr +=  "<h4>" + new Date() + "</h4>"
+  htmlStr += "<div class='departure-board'>" + output + "</div>"
+  htmlStr += "</div></div>"
+
+  return htmlStr
 
 #update: (output, dom) ->
 #  $(dom).find('#GridView1')
@@ -33,13 +32,16 @@ style: """
   top: 20px
   color: black
 
+  .grid-container
+    display: inline-grid
+    grid-template-columns: 700px
+
   .grid-item
-    font-size: 2px
     background-color: rgba(255, 255, 255, 0.8)
     border: 1px solid rgba(0, 0, 0, 0.8)
     padding: 5px
+
+  .departure-board
+    font-size: 2px
 """
 
-#  .grid-container
-#  display: inline-grid
-#  grid-template-columns: 650px

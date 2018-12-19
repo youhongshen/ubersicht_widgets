@@ -41,11 +41,13 @@ render: (xml) ->
 
 #    build html
 
-  htmlStr = "<h2>NJT Advisory</h2>"
-  htmlStr += "<h4>" + new Date() + "</h4>"
-
+  htmlStr = ""
   htmlStr += "<div class='grid-container'>"
   htmlStr += "<div class='grid-item'>"
+  htmlStr += "<h2>NJT Travel Advisory</h2>"
+  htmlStr += "<h4>" + new Date() + "</h4>"
+  htmlStr += "<hr/>"
+
   htmlStr += "<table>"
   for timestamp, description of advisory
     htmlStr += "<tr class='timestamp'><td>" + timestamp + "</td></tr>"
